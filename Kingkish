@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>رجال عائلة كش ملك ♟️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+    body {
+      background: linear-gradient(145deg, #0f0f0f, #1e1e1e);
+      color: #f0f0f0;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      color: #ffd700;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.1rem;
+      color: #bbb;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background-color: #2a2a2a;
+      border-radius: 16px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .name {
+      margin-top: 10px;
+      font-size: 1.3rem;
+      color: #ffeb3b;
+    }
+    .desc {
+      font-size: 1rem;
+      color: #aaa;
+    }
+    .votes {
+      margin: 10px 0;
+      font-weight: bold;
+      color: #ccc;
+    }
+    .vote-btn {
+      background-color: #d32f2f;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .vote-btn:hover {
+      background-color: #ff1744;
+    }
+    .comment-section {
+      margin-top: 50px;
+      background-color: #1c1c1c;
+      padding: 20px;
+      border-radius: 16px;
+    }
+    .comment-section h2 {
+      margin-bottom: 15px;
+      color: #ffeb3b;
+    }
+    .comment-box textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      resize: none;
+      margin-bottom: 10px;
+    }
+    .comment-box button {
+      padding: 8px 16px;
+      background-color: #ffd700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .comment-list {
+      margin-top: 20px;
+    }
+    .comment-item {
+      background-color: #2f2f2f;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>رجال عائلة كش ملك ♟️</h1>
+    <p>عائلة إلكترونية... روح التحدي، المتعة، والأخوة... اختر ملكك وصوّت له!</p>
+  </header>
+
+  <div class="container" id="contestants"></div>
+
+  <div class="comment-section">
+    <h2>💬 التعليقات</h2>
+    <div class="comment-box">
+      <textarea id="commentInput" rows="3" placeholder="اكتب تعليقك هنا..."></textarea>
+      <button onclick="addComment()">إرسال</button>
+    </div>
+    <div class="comment-list" id="commentList"></div>
+  </div>
+
+  <footer>
+    <p>© 2025 جميع الحقوق محفوظة لعائلة كش ملك. تصميم وتنفيذ: فهد السعودي.</p>
+  </footer>
+
+  <script>
+    const contestants = [
+      {
+        name: "فهد",
+        age: 48,
+        image: "https://scontent.forn3-1.fna.fbcdn.net/....jpg",
+        votes: 0,
+        link: "https://www.facebook.com/share/15vFVAfHZS/"
+      },
+      {
+        name: "آدم",
+        age: 40,
+        image: "https://scontent.forn3-1.fna.fbcdn.net/....jpg",
+        votes: 0,
+        link: "https://www.facebook.com/share/1JPL6iEhxw/"
+      },
+      {
+        name: "عبد السلام",
+        age: 47,
+        image: "https://scontent.forn3-1.fna.fbcdn.net/....jpg",
+        votes: 0,
+        link: "https://www.facebook.com/share/1GJSDAY89j/"
+      },
+      {
+        name: "ضرار",
+        age: 47,
+        image: "https://scontent.forn3-1.fna.fbcdn.net/....jpg",
+        votes: 0,
+        link: "https://www.facebook.com/share/1AWw2nB9ge/"
+      },
+      {
+        name: "كنان",
+        age: 48,
+        image: "https://scontent.forn3-1.fna.fbcdn.net/....jpg",
+        votes: 0,
+        link: "https://www.facebook.com/Italiano0007"
+      },
+      {
+        name: "محمود",
+        age: 47,
+        image: "https://scontent.forn3-1.fna.fbcdn.net/....jpg",
+        votes: 0,
+        link: "https://www.facebook.com/share/1ATUd3f8jv/"
+      }
+    ];
+
+    const votedKey = "hasVoted";
+    const votesKey = "votesData";
+
+    function loadVotes() {
+      const saved = JSON.parse(localStorage.getItem(votesKey));
+      if (saved) {
+        contestants.forEach((c, i) => c.votes = saved[i] || 0);
+      }
+    }
+
+    function saveVotes() {
+      localStorage.setItem(votesKey, JSON.stringify(contestants.map(c => c.votes)));
+    }
+
+    function renderContestants() {
+      const container = document.getElementById("contestants");
+      container.innerHTML = "";
+      contestants.forEach((c, i) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <a href="${c.link}" target="_blank"><img src="${c.image}" alt="${c.name}" /></a>
+          <div class="name">${c.name}</div>
+          <div class="desc">العمر: ${c.age} سنة</div>
+          <div class="votes">${c.votes} صوت</div>
+          <button class="vote-btn" onclick="vote(${i})">صوّت</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function vote(index) {
+      if (localStorage.getItem(votedKey)) {
+        alert("لقد قمت بالتصويت بالفعل!");
+        return;
+      }
+      contestants[index].votes++;
+      localStorage.setItem(votedKey, "true");
+      saveVotes();
+      renderContestants();
+    }
+
+    function addComment() {
+      const input = document.getElementById("commentInput");
+      const text = input.value.trim();
+      if (!text) return;
+      const saved = JSON.parse(localStorage.getItem("comments") || "[]");
+      saved.push(text);
+      localStorage.setItem("comments", JSON.stringify(saved));
+      input.value = "";
+      renderComments();
+    }
+
+    function renderComments() {
+      const commentList = document.getElementById("commentList");
+      commentList.innerHTML = "";
+      const saved = JSON.parse(localStorage.getItem("comments") || "[]");
+      saved.forEach(comment => {
+        const div = document.createElement("div");
+        div.className = "comment-item";
+        div.textContent = comment;
+        commentList.appendChild(div);
+      });
+    }
+
+    loadVotes();
+    renderContestants();
+    renderComments();
+  </script>
+</body>
+</html>
